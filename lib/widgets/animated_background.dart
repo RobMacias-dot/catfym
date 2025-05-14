@@ -16,9 +16,10 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 8))
-          ..repeat(reverse: true);
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 12),
+    )..repeat(reverse: true);
   }
 
   @override
@@ -50,30 +51,41 @@ class CurvedGradientPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint();
 
-    final gradient = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        AppColors.primaryBackground.withOpacity(1.0),
-        Colors.white.withOpacity(0.2),
-      ],
-    );
+    // 🎨 Capa base (color principal CATFYM)
+    paint.color = const Color(0xFF4EB8B1);
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
 
-    paint.shader = gradient.createShader(Rect.fromLTWH(0, 0, size.width, size.height));
-
-    final path = Path();
-    path.moveTo(0, size.height * 0.3);
-    path.quadraticBezierTo(
+    // 🎨 Capa 1 (curva clara animada)
+    final path1 = Path();
+    path1.moveTo(0, size.height * 0.5);
+    path1.quadraticBezierTo(
       size.width * 0.5,
-      size.height * (0.3 + 0.1 * sin(progress * 2 * pi)),
+      size.height * (0.5 + 0.1 * sin(progress * pi * 2)),
       size.width,
-      size.height * 0.3,
+      size.height * 0.4,
     );
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
+    path1.lineTo(size.width, size.height);
+    path1.lineTo(0, size.height);
+    path1.close();
 
-    canvas.drawPath(path, paint);
+    paint.color = const Color(0xCCB9E3DF); // turquesa claro translúcido
+    canvas.drawPath(path1, paint);
+
+    // 🎨 Capa 2 (curva más blanca)
+    final path2 = Path();
+    path2.moveTo(0, size.height * 0.7);
+    path2.quadraticBezierTo(
+      size.width * 0.6,
+      size.height * (0.75 + 0.1 * cos(progress * pi * 2)),
+      size.width,
+      size.height * 0.8,
+    );
+    path2.lineTo(size.width, size.height);
+    path2.lineTo(0, size.height);
+    path2.close();
+
+    paint.color = const Color(0x99FFFFFF); // blanco translúcido
+    canvas.drawPath(path2, paint);
   }
 
   @override

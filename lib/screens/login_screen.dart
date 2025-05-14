@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 30),
 
                     // LOGO Y TEXTO PRINCIPAL
-                    Center(
+                    /*Center(
                       child: Column(
                         children: const [
                           SizedBox(height: 20),
@@ -49,9 +49,16 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
+                    ),*/
 
                     const SizedBox(height: 40),
+
+                    Center(
+                      child: Image.asset(
+                        'assets/catfym_logo_bco.png',
+                        height: 100,
+                      ),
+                    ),
 
                     // USUARIO
                     const Text('USUARIO:', style: TextStyle(color: Colors.white)),
