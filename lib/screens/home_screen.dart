@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/app_colors.dart';
+import 'registro_paciente_screen.dart';
+import 'seguimiento_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final String nombreTerapeuta;
@@ -21,28 +23,39 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ICONOS SUPERIORES
+              // Íconos de perfil y configuración
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
                     icon: const Icon(Icons.person, color: Colors.white),
                     onPressed: () {
-                      // Ir al perfil
+                      // Acción perfil
                     },
                   ),
                   IconButton(
                     icon: const Icon(Icons.settings, color: Colors.white),
                     onPressed: () {
-                      // Ir a configuración
+                      // Acción configuración
                     },
                   ),
                 ],
               ),
 
+              const SizedBox(height: 30),
+
+              // Logo centrado
+              Center(
+                child: Image.asset(
+                  'assets/catfym_logo_bco.png',
+                  height: 80,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Text('⚠️ No se pudo cargar el logo'),
+                ),
+              ),
+
               const SizedBox(height: 40),
 
-              // BIENVENIDA
               Text(
                 'Bienvenida $nombreTerapeuta',
                 style: const TextStyle(
@@ -52,21 +65,31 @@ class HomeScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
+
               const SizedBox(height: 12),
+
               const Text(
                 '¿Qué deseas hacer?',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
                   color: AppColors.inputFieldColor,
                   fontWeight: FontWeight.w600,
                 ),
-                textAlign: TextAlign.center,
               ),
 
               const SizedBox(height: 40),
 
-              // BOTÓN: REGISTRAR NUEVO PACIENTE
+              // Botón 1: Registrar nuevo paciente
               ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegistroPacienteScreen(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.inputFieldColor,
                   padding: const EdgeInsets.symmetric(vertical: 14),
@@ -74,21 +97,16 @@ class HomeScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {
-                  // Navegar a registro de paciente
-                },
                 child: const Text(
                   'REGISTRAR NUEVO PACIENTE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
 
+
               const SizedBox(height: 20),
 
-              // BOTÓN: DAR SEGUIMIENTO (condicional)
+              // Botón 2: Dar seguimiento
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
@@ -99,26 +117,29 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: tienePacientes
-                    ? () {
-                        // Navegar a seguimiento
-                      }
-                    : null,
+                  ? () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SeguimientoScreen(),
+                        ),
+                      );
+                    }
+                  : null,
+
                 child: const Text(
                   'DAR SEGUIMIENTO',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
 
               const Spacer(),
 
-              // LOGO CATFYM AL FONDO
+              // Logo inferior (opcional)
               Center(
                 child: Image.asset(
-                  'assets/logo_catfym.png',
-                  height: 50,
+                  'assets/catfym_logo_bco.png',
+                  height: 40,
                 ),
               ),
             ],

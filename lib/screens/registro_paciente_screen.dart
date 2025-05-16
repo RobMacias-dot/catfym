@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/app_colors.dart';
+import 'registro_paciente_screen.dart';
 
 class RegistroPacienteScreen extends StatefulWidget {
   const RegistroPacienteScreen({super.key});
