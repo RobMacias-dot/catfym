@@ -6,6 +6,7 @@ class DiagnosticoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Diagnóstico'),
         centerTitle: true,
@@ -18,9 +19,8 @@ class DiagnosticoScreen extends StatelessWidget {
             children: [
               const Text('Nombre del paciente'),
               const SizedBox(height: 8),
-              TextField(
+              const TextField(
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
                   hintText: 'Ej. Juan Pérez',
                 ),
               ),
@@ -28,10 +28,9 @@ class DiagnosticoScreen extends StatelessWidget {
 
               const Text('Síntomas / Observaciones'),
               const SizedBox(height: 8),
-              TextField(
+              const TextField(
                 maxLines: 4,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
                   hintText: 'Describir síntomas o situación actual...',
                 ),
               ),
@@ -51,7 +50,7 @@ class DiagnosticoScreen extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Aquí se guardaría o validaría la información
+                    // Guardar o validar diagnóstico
                   },
                   child: const Text('Guardar Diagnóstico'),
                 ),

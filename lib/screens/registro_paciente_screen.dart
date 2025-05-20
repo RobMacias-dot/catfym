@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../utils/app_colors.dart';
-import 'registro_paciente_screen.dart';
+import 'historial_medico_screen.dart';
+import '../models/paciente_model.dart';
 
 class RegistroPacienteScreen extends StatefulWidget {
   const RegistroPacienteScreen({super.key});
@@ -28,7 +28,7 @@ class _RegistroPacienteScreenState extends State<RegistroPacienteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryBackground,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -37,20 +37,15 @@ class _RegistroPacienteScreenState extends State<RegistroPacienteScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // BOTÓN DE REGRESO
                 IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  icon: const Icon(Icons.arrow_back),
                   onPressed: () => Navigator.pop(context),
                 ),
 
                 const SizedBox(height: 12),
-                const Text(
+                Text(
                   'REGISTRO NUEVO',
-                  style: TextStyle(
-                    color: AppColors.inputFieldColor,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
 
                 const SizedBox(height: 20),
@@ -59,7 +54,7 @@ class _RegistroPacienteScreenState extends State<RegistroPacienteScreen> {
                 _buildInput('Apellido', apellidoController),
 
                 const SizedBox(height: 16),
-                const Text('Sexo:', style: TextStyle(color: Colors.white)),
+                const Text('Sexo:'),
                 Row(
                   children: [
                     Radio<String>(
@@ -67,20 +62,20 @@ class _RegistroPacienteScreenState extends State<RegistroPacienteScreen> {
                       groupValue: _sexo,
                       onChanged: (value) => setState(() => _sexo = value!),
                     ),
-                    const Text('Femenino', style: TextStyle(color: Colors.white)),
+                    const Text('Femenino'),
                     Radio<String>(
                       value: 'Masculino',
                       groupValue: _sexo,
                       onChanged: (value) => setState(() => _sexo = value!),
                     ),
-                    const Text('Masculino', style: TextStyle(color: Colors.white)),
+                    const Text('Masculino'),
                   ],
                 ),
 
                 _buildInput('Edad', edadController),
                 const SizedBox(height: 10),
 
-                const Text('Fecha de nacimiento:', style: TextStyle(color: Colors.white)),
+                const Text('Fecha de nacimiento:'),
                 const SizedBox(height: 4),
                 InkWell(
                   onTap: _seleccionarFecha,
@@ -105,43 +100,51 @@ class _RegistroPacienteScreenState extends State<RegistroPacienteScreen> {
                 _buildInput('Correo', correoController),
 
                 const SizedBox(height: 24),
-                const Text(
+                Text(
                   'Contacto de emergencia:',
-                  style: TextStyle(
-                    color: AppColors.inputFieldColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
+
                 const SizedBox(height: 10),
-                _buildInput('Nombre:', emergenciaNombreController),
-                _buildInput('Teléfono:', emergenciaTelefonoController),
-                _buildInput('Parentesco:', emergenciaParentescoController),
+                _buildInput('Nombre', emergenciaNombreController),
+                _buildInput('Teléfono', emergenciaTelefonoController),
+                _buildInput('Parentesco', emergenciaParentescoController),
 
                 const SizedBox(height: 24),
+
                 Center(
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.inputFieldColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                    ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // Guardar paciente (lógica futura)
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Paciente registrado')),
+                        final nuevoPaciente = PacienteModel(
+                          nombre: nombreController.text,
+                          apellido: apellidoController.text,
+                          edad: edadController.text,
+                          sexo: _sexo,
+                          fechaNacimiento: _fechaNacimiento?.toIso8601String() ?? '',
+                          direccion: direccionController.text,
+                          telefono: telefonoController.text,
+                          correo: correoController.text,
+                          contactoEmergenciaNombre: emergenciaNombreController.text,
+                          contactoEmergenciaTelefono: emergenciaTelefonoController.text,
+                          contactoEmergenciaParentesco: emergenciaParentescoController.text,
+                        );
+
+                        pacientesRegistrados.add(nuevoPaciente);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const HistorialMedicoScreen(),
+                          ),
                         );
                       }
                     },
-                    child: const Text(
-                      'GUARDAR',
-                      style: TextStyle(color: Colors.white),
-                    ),
+
+                    child: const Text('GUARDAR'),
                   ),
                 ),
+
                 const SizedBox(height: 40),
               ],
             ),
@@ -156,14 +159,7 @@ class _RegistroPacienteScreenState extends State<RegistroPacienteScreen> {
       padding: const EdgeInsets.only(bottom: 10),
       child: TextFormField(
         controller: controller,
-        style: const TextStyle(color: Colors.black87),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: const TextStyle(color: Colors.white),
-          filled: true,
-          fillColor: Colors.white.withOpacity(0.9),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        ),
+        decoration: InputDecoration(labelText: label),
         validator: (value) =>
             value == null || value.isEmpty ? 'Campo requerido' : null,
       ),

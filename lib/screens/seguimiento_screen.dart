@@ -8,13 +8,10 @@ class SeguimientoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Seguimiento de Pacientes'),
-        backgroundColor: Colors.teal,
+        centerTitle: true,
       ),
       body: const Center(
-        child: Text(
-          'Aquí se mostrará la lista de pacientes registrados',
-          style: TextStyle(fontSize: 16),
-        ),
+        child: Text('Aquí se mostrará la lista de pacientes registrados'),
       ),
     );
   }

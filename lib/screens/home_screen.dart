@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../utils/app_colors.dart';
 import 'registro_paciente_screen.dart';
 import 'seguimiento_screen.dart';
 
@@ -16,7 +15,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryBackground,
+      // Puedes mantener el fondo si quieres conservar el color base
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
@@ -28,16 +28,12 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.person, color: Colors.white),
-                    onPressed: () {
-                      // Acción perfil
-                    },
+                    icon: const Icon(Icons.person),
+                    onPressed: () {},
                   ),
                   IconButton(
-                    icon: const Icon(Icons.settings, color: Colors.white),
-                    onPressed: () {
-                      // Acción configuración
-                    },
+                    icon: const Icon(Icons.settings),
+                    onPressed: () {},
                   ),
                 ],
               ),
@@ -58,11 +54,7 @@ class HomeScreen extends StatelessWidget {
 
               Text(
                 'Bienvenida $nombreTerapeuta',
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+                style: Theme.of(context).textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
 
@@ -71,11 +63,6 @@ class HomeScreen extends StatelessWidget {
               const Text(
                 '¿Qué deseas hacer?',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: AppColors.inputFieldColor,
-                  fontWeight: FontWeight.w600,
-                ),
               ),
 
               const SizedBox(height: 40),
@@ -90,52 +77,28 @@ class HomeScreen extends StatelessWidget {
                     ),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.inputFieldColor,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  'REGISTRAR NUEVO PACIENTE',
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: const Text('REGISTRAR NUEVO PACIENTE'),
               ),
-
 
               const SizedBox(height: 20),
 
               // Botón 2: Dar seguimiento
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      tienePacientes ? AppColors.inputFieldColor : Colors.grey,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
                 onPressed: tienePacientes
-                  ? () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SeguimientoScreen(),
-                        ),
-                      );
-                    }
-                  : null,
-
-                child: const Text(
-                  'DAR SEGUIMIENTO',
-                  style: TextStyle(color: Colors.white),
-                ),
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SeguimientoScreen(),
+                          ),
+                        );
+                      }
+                    : null,
+                child: const Text('DAR SEGUIMIENTO'),
               ),
 
               const Spacer(),
 
-              // Logo inferior (opcional)
               Center(
                 child: Image.asset(
                   'assets/catfym_logo_bco.png',
